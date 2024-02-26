@@ -44,7 +44,7 @@ endfunction()
 
 function(add_appx_mapping)
   cmake_parse_arguments(
-    PARSE_ARGV 0 ARGV "" "DESTINATION;NAME;LOGO;TARGET;EXECUTABLE" ""
+    PARSE_ARGV 0 ARGV "" "DESTINATION;NAME;LOGO;ICON;TARGET;EXECUTABLE" ""
   )
 
   if(NOT ARGV_DESTINATION)
@@ -63,6 +63,12 @@ function(add_appx_mapping)
     cmake_path(ABSOLUTE_PATH ARGV_LOGO NORMALIZE)
 
     string(APPEND template "\"${ARGV_LOGO}\" \"resources/app/icon.png\"\n")
+  endif()
+
+  if(ARGV_ICON)
+    cmake_path(ABSOLUTE_PATH ARGV_ICON NORMALIZE)
+
+    string(APPEND template "\"${ARGV_ICON}\" \"resources/app/icon.ico\"\n")
   endif()
 
   file(GENERATE OUTPUT "${ARGV_DESTINATION}" CONTENT "${template}" NEWLINE_STYLE WIN32)
