@@ -12,9 +12,9 @@ function(find_make_appx result)
   return(PROPAGATE ${result})
 endfunction()
 
-function(add_appx_manifest)
+function(add_appx_manifest target)
   cmake_parse_arguments(
-    PARSE_ARGV 0 ARGV "" "DESTINATION;NAME;VERSION;PUBLISHER;DISPLAY_NAME;PUBLISHER_DISPLAY_NAME;DESCRIPTION" "UNVIRTUALIZED_PATHS"
+    PARSE_ARGV 1 ARGV "" "DESTINATION;NAME;VERSION;PUBLISHER;DISPLAY_NAME;PUBLISHER_DISPLAY_NAME;DESCRIPTION" "UNVIRTUALIZED_PATHS"
   )
 
   if(NOT ARGV_DESTINATION)
@@ -42,9 +42,9 @@ function(add_appx_manifest)
   file(GENERATE OUTPUT "${ARGV_DESTINATION}" CONTENT "${template}" NEWLINE_STYLE WIN32)
 endfunction()
 
-function(add_appx_mapping)
+function(add_appx_mapping target)
   cmake_parse_arguments(
-    PARSE_ARGV 0 ARGV "" "DESTINATION;NAME;LOGO;ICON;TARGET;EXECUTABLE" ""
+    PARSE_ARGV 1 ARGV "" "DESTINATION;NAME;LOGO;ICON;TARGET;EXECUTABLE" ""
   )
 
   if(NOT ARGV_DESTINATION)
@@ -99,15 +99,14 @@ function(add_msix_package target)
 
   list(APPEND ARGV_DEPENDS  "${ARGV_MANIFEST}" "${ARGV_MAPPING}")
 
-  add_custom_command(
-    OUTPUT "${ARGV_DESTINATION}"
+  list(APPEND commands
     COMMAND "${make_appx}" pack /o /m "${ARGV_MANIFEST}" /f "${ARGV_MAPPING}" /p "${ARGV_DESTINATION}"
-    DEPENDS ${ARGV_DEPENDS}
   )
 
   add_custom_target(
     ${target}
     ALL
-    DEPENDS "${ARGV_DESTINATION}"
+    ${commands}
+    DEPENDS ${ARGV_DEPENDS}
   )
 endfunction()
