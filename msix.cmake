@@ -13,8 +13,22 @@ function(find_make_appx result)
 endfunction()
 
 function(add_appx_manifest target)
+  set(one_value_keywords
+    DESTINATION
+    NAME
+    VERSION
+    PUBLISHER
+    DISPLAY_NAME
+    PUBLISHER_DISPLAY_NAME
+    DESCRIPTION
+  )
+
+  set(multi_value_keywords
+    UNVIRTUALIZED_PATHS
+  )
+
   cmake_parse_arguments(
-    PARSE_ARGV 1 ARGV "" "DESTINATION;NAME;VERSION;PUBLISHER;DISPLAY_NAME;PUBLISHER_DISPLAY_NAME;DESCRIPTION" "UNVIRTUALIZED_PATHS"
+    PARSE_ARGV 1 ARGV "" "${one_value_keywords}" "${multi_value_keywords}"
   )
 
   if(NOT ARGV_DESTINATION)
@@ -43,8 +57,21 @@ function(add_appx_manifest target)
 endfunction()
 
 function(add_appx_mapping target)
+  set(one_value_keywords
+    DESTINATION
+    NAME
+    LOGO
+    ICON
+    TARGET
+    EXECUTABLE
+  )
+
+  set(multi_value_keywords
+    RESOURCES
+  )
+
   cmake_parse_arguments(
-    PARSE_ARGV 1 ARGV "" "DESTINATION;NAME;LOGO;ICON;TARGET;EXECUTABLE" ""
+    PARSE_ARGV 1 ARGV "" "${one_value_keywords}" "${multi_value_keywords}"
   )
 
   if(NOT ARGV_DESTINATION)
@@ -55,28 +82,54 @@ function(add_appx_mapping target)
 
   if(ARGV_TARGET)
     set(ARGV_EXECUTABLE $<TARGET_FILE:${ARGV_TARGET}>)
+  else()
+    cmake_path(ABSOLUTE_PATH ARGV_EXECUTABLE NORMALIZE)
   endif()
 
-  string(APPEND template "\"${ARGV_EXECUTABLE}\" \"${ARGV_NAME}.exe\"\n")
+  list(APPEND ARGV_RESOURCES "${ARGV_EXECUTABLE}" "${ARGV_NAME}.exe" )
 
   if(ARGV_LOGO)
-    cmake_path(ABSOLUTE_PATH ARGV_LOGO NORMALIZE)
-
-    string(APPEND template "\"${ARGV_LOGO}\" \"icon.png\"\n")
+    list(APPEND ARGV_RESOURCES "${ARGV_LOGO}" "icon.png" )
   endif()
 
   if(ARGV_ICON)
-    cmake_path(ABSOLUTE_PATH ARGV_ICON NORMALIZE)
-
-    string(APPEND template "\"${ARGV_ICON}\" \"icon.ico\"\n")
+    list(APPEND ARGV_RESOURCES "${ARGV_ICON}" "icon.png" )
   endif()
+
+  while(TRUE)
+    list(LENGTH ARGV_RESOURCES len)
+
+    if(len LESS 3)
+      break()
+    endif()
+
+    list(POP_FRONT ARGV_RESOURCES type from to)
+
+    cmake_path(ABSOLUTE_PATH from NORMALIZE)
+
+    if(NOT type MATCHES "FILE" AND NOT type MATCHES "DIR")
+      continue()
+    endif()
+
+    string(APPEND template "\"${from}\" \"${to}\"\n")
+  endwhile()
 
   file(GENERATE OUTPUT "${ARGV_DESTINATION}" CONTENT "${template}" NEWLINE_STYLE WIN32)
 endfunction()
 
 function(add_msix_package target)
+  set(one_value_keywords
+    DESTINATION
+    MANIFEST
+    MAPPING
+  )
+
+  set(multi_value_keywords
+    DEPENDS
+  )
+
   cmake_parse_arguments(
-    PARSE_ARGV 1 ARGV "" "DESTINATION;MANIFEST;MAPPING;DEPENDS" ""
+    PARSE_ARGV 1 ARGV "" "${one_value_keywords}" "${multi_value_keywords}"
   )
 
   cmake_path(ABSOLUTE_PATH ARGV_DESTINATION BASE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" NORMALIZE)
