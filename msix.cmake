@@ -86,14 +86,14 @@ function(add_appx_mapping target)
     cmake_path(ABSOLUTE_PATH ARGV_EXECUTABLE NORMALIZE)
   endif()
 
-  list(APPEND ARGV_RESOURCES "${ARGV_EXECUTABLE}" "${ARGV_NAME}.exe" )
+  list(APPEND ARGV_RESOURCES FILE "${ARGV_EXECUTABLE}" "${ARGV_NAME}.exe" )
 
   if(ARGV_LOGO)
-    list(APPEND ARGV_RESOURCES "${ARGV_LOGO}" "icon.png" )
+    list(APPEND ARGV_RESOURCES FILE "${ARGV_LOGO}" "icon.png" )
   endif()
 
   if(ARGV_ICON)
-    list(APPEND ARGV_RESOURCES "${ARGV_ICON}" "icon.png" )
+    list(APPEND ARGV_RESOURCES FILE "${ARGV_ICON}" "icon.png" )
   endif()
 
   while(TRUE)
