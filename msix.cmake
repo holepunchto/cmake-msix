@@ -62,13 +62,13 @@ function(add_appx_mapping target)
   if(ARGV_LOGO)
     cmake_path(ABSOLUTE_PATH ARGV_LOGO NORMALIZE)
 
-    string(APPEND template "\"${ARGV_LOGO}\" \"resources/app/icon.png\"\n")
+    string(APPEND template "\"${ARGV_LOGO}\" \"icon.png\"\n")
   endif()
 
   if(ARGV_ICON)
     cmake_path(ABSOLUTE_PATH ARGV_ICON NORMALIZE)
 
-    string(APPEND template "\"${ARGV_ICON}\" \"resources/app/icon.ico\"\n")
+    string(APPEND template "\"${ARGV_ICON}\" \"icon.ico\"\n")
   endif()
 
   file(GENERATE OUTPUT "${ARGV_DESTINATION}" CONTENT "${template}" NEWLINE_STYLE WIN32)
