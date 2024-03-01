@@ -59,7 +59,6 @@ endfunction()
 function(add_appx_mapping target)
   set(one_value_keywords
     DESTINATION
-    NAME
     LOGO
     ICON
     TARGET
@@ -82,18 +81,22 @@ function(add_appx_mapping target)
 
   if(ARGV_TARGET)
     set(ARGV_EXECUTABLE $<TARGET_FILE:${ARGV_TARGET}>)
+
+    set(ARGV_EXECUTABLE_NAME $<TARGET_FILE_NAME:${ARGV_TARGET}>)
   else()
     cmake_path(ABSOLUTE_PATH ARGV_EXECUTABLE NORMALIZE)
+
+    cmake_path(GET ARGV_EXECUTABLE FILENAME ARGV_EXECUTABLE_NAME)
   endif()
 
-  list(APPEND ARGV_RESOURCES FILE "${ARGV_EXECUTABLE}" "${ARGV_NAME}.exe" )
+  string(APPEND template "\"${ARGV_EXECUTABLE}\" \"${ARGV_EXECUTABLE_NAME}\"\n")
 
   if(ARGV_LOGO)
     list(APPEND ARGV_RESOURCES FILE "${ARGV_LOGO}" "icon.png" )
   endif()
 
   if(ARGV_ICON)
-    list(APPEND ARGV_RESOURCES FILE "${ARGV_ICON}" "icon.png" )
+    list(APPEND ARGV_RESOURCES FILE "${ARGV_ICON}" "icon.ico" )
   endif()
 
   while(TRUE)
