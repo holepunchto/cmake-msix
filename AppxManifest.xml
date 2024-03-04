@@ -17,7 +17,7 @@
     <DisplayName>${ARGV_DISPLAY_NAME}</DisplayName>
     <PublisherDisplayName>${ARGV_PUBLISHER_DISPLAY_NAME}</PublisherDisplayName>
     <Description>${ARGV_DESCRIPTION}</Description>
-    <Logo>resources\app\icon.png</Logo>
+    <Logo>icon.png</Logo>
 
     <virtualization:FileSystemWriteVirtualization>
       <virtualization:ExcludedDirectories>
@@ -65,8 +65,8 @@
       <uap:VisualElements
         DisplayName="${ARGV_DISPLAY_NAME}"
         Description="${ARGV_DESCRIPTION}"
-        Square150x150Logo="resources\app\icon.png"
-        Square44x44Logo="resources\app\icon.png"
+        Square150x150Logo="icon.png"
+        Square44x44Logo="icon.png"
         BackgroundColor="transparent"
       />
     </Application>
