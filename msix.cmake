@@ -47,10 +47,6 @@ function(add_appx_manifest target)
     set(ARGV_DESTINATION AppxManifest.xml)
   endif()
 
-  if(NOT DEFINED ARGV_PUBLISHER)
-    set(ARGV_PUBLISHER "CN=AppModelSamples, OID.2.25.311729368913984317654407730594956997722=1")
-  endif()
-
   if(NOT DEFINED ARGV_DISPLAY_NAME)
     set(ARGV_DISPLAY_NAME "${ARGV_NAME}")
   endif()
