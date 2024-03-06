@@ -67,7 +67,6 @@ endfunction()
 function(add_appx_mapping target)
   set(one_value_keywords
     DESTINATION
-    LOGO
     ICON
     TARGET
     EXECUTABLE
@@ -99,12 +98,8 @@ function(add_appx_mapping target)
 
   string(APPEND template "\"${ARGV_EXECUTABLE}\" \"${ARGV_EXECUTABLE_NAME}\"\n")
 
-  if(ARGV_LOGO)
-    list(APPEND ARGV_RESOURCES FILE "${ARGV_LOGO}" "icon.png" )
-  endif()
-
   if(ARGV_ICON)
-    list(APPEND ARGV_RESOURCES FILE "${ARGV_ICON}" "icon.ico" )
+    list(APPEND ARGV_RESOURCES FILE "${ARGV_ICON}" "icon.png" )
   endif()
 
   while(TRUE)
