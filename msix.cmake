@@ -12,18 +12,6 @@ function(find_make_appx result)
   return(PROPAGATE ${result})
 endfunction()
 
-function(find_sign_tool result)
-  find_program(
-    sign_tool
-    NAMES SignTool
-    REQUIRED
-  )
-
-  set(${result} "${sign_tool}")
-
-  return(PROPAGATE ${result})
-endfunction()
-
 function(add_appx_manifest target)
   set(one_value_keywords
     DESTINATION
@@ -166,48 +154,6 @@ function(add_msix_package target)
     ${target}
     ALL
     ${commands}
-    DEPENDS ${ARGV_DEPENDS}
-  )
-endfunction()
-
-function(code_sign_msix_package target)
-  set(one_value_keywords
-    PATH
-    SUBJECT_NAME
-    THUMBPRINT
-    TIMESTAMP
-  )
-
-  set(multi_value_keywords
-    DEPENDS
-  )
-
-  cmake_parse_arguments(
-    PARSE_ARGV 1 ARGV "" "${one_value_keywords}" "${multi_value_keywords}"
-  )
-
-  cmake_path(ABSOLUTE_PATH ARGV_PATH NORMALIZE)
-
-  if(NOT ARGV_TIMESTAMP)
-    set(ARGV_TIMESTAMP "http://timestamp.digicert.com")
-  endif()
-
-  if(ARGV_SUBJECT_NAME)
-    list(APPEND args /n "${ARGV_SUBJECT_NAME}")
-  endif()
-
-  if(ARGV_THUMBPRINT)
-    list(APPEND args /sha1 "${ARGV_THUMBPRINT}")
-  endif()
-
-  list(APPEND args /a /fd SHA256 /t "${ARGV_TIMESTAMP}")
-
-  find_sign_tool(sign_tool)
-
-  add_custom_target(
-    ${target}
-    ALL
-    COMMAND ${sign_tool} sign ${args} "${ARGV_PATH}"
     DEPENDS ${ARGV_DEPENDS}
   )
 endfunction()
