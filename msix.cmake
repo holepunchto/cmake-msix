@@ -1,9 +1,15 @@
+include(windows)
+
 set(msix_module_root ${CMAKE_CURRENT_LIST_DIR})
 
 function(find_make_appx result)
+  find_windows_sdk(BIN sdk_bin_dir)
+
   find_program(
     make_appx
     NAMES MakeAppx
+    PATHS "${sdk_bin_dir}"
+    NO_DEFAULT_PATH
     REQUIRED
   )
 
