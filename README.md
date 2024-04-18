@@ -1,16 +1,22 @@
 # cmake-msix
+
 Functions to simplify the creation of MSIX packages for distributing Windows applications.
 
 ## API
 
 #### `find_make_appx`
-Locates the MakeAppx.exe tool from the Windows SDK, required for building MSIX packages.
+
+Locates the `MakeAppx.exe` tool from the Windows SDK, required for building MSIX packages.
+
+```cmake
+find_make_appx(<result>)
+```
 
 ##### `<result>`
 An output variable where the path to the `MakeAppx.exe` executable will be stored.
 
-
 #### `add_app_manifest`
+
 Generates the core `AppxManifest.xml` file, which defines essential metadata for the MSIX package.
 
 ```cmake
@@ -55,6 +61,7 @@ A description of the application.
 A list of paths that should remain unvirtualized within the MSIX package.
 
 #### `add_appx_mapping`
+
 Creates a `Mapping.txt` file that specifies the file structure within the MSIX package.
 
 ```cmake
@@ -93,6 +100,7 @@ Copies a file from `<from>` to `<to>` within the MSIX package.
 Copies an entire directory from `<from>` to `<to>` within the MSIX package.
 
 #### `add_msix_package`
+
 The central function to generate the final MSIX package.
 
 ```cmake
