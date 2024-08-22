@@ -1,6 +1,8 @@
+include_guard(GLOBAL)
+
 include(windows)
 
-set(msix_module_root ${CMAKE_CURRENT_LIST_DIR})
+set(msix_module_dir "${CMAKE_CURRENT_LIST_DIR}")
 
 function(find_make_appx result)
   find_windows_sdk(BIN sdk_bin_dir)
@@ -51,7 +53,7 @@ function(add_appx_manifest target)
 
   list(JOIN ARGV_UNVIRTUALIZED_PATHS "" ARGV_UNVIRTUALIZED_PATHS)
 
-  file(READ "${msix_module_root}/AppxManifest.xml" template)
+  file(READ "${msix_module_dir}/AppxManifest.xml" template)
 
   string(CONFIGURE "${template}" template)
 
