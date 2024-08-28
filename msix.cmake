@@ -154,7 +154,7 @@ function(add_msix_package target)
 
   find_make_appx(make_appx)
 
-  list(APPEND commands
+  set(commands
     COMMAND "${make_appx}" pack /o /m "${ARGV_MANIFEST}" /f "${ARGV_MAPPING}" /p "${ARGV_DESTINATION}"
   )
 
