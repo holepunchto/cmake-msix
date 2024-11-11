@@ -1,6 +1,6 @@
-include_guard(GLOBAL)
+include_guard()
 
-include(windows)
+find_package(cmake-windows REQUIRED PATHS node_modules/cmake-windows)
 
 set(msix_module_dir "${CMAKE_CURRENT_LIST_DIR}")
 
