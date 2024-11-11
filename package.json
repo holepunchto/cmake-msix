@@ -16,7 +16,7 @@
     "url": "https://github.com/holepunchto/cmake-msix/issues"
   },
   "homepage": "https://github.com/holepunchto/cmake-msix#readme",
-  "devDependencies": {
+  "dependencies": {
     "cmake-windows": "^1.0.0"
   }
 }
