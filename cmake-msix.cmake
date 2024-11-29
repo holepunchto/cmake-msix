@@ -11,7 +11,6 @@ function(find_make_appx result)
     make_appx
     NAMES MakeAppx
     PATHS "${sdk_bin_dir}"
-    NO_DEFAULT_PATH
     REQUIRED
   )
 
