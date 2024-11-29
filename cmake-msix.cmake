@@ -28,6 +28,7 @@ function(add_appx_manifest target)
     DISPLAY_NAME
     PUBLISHER_DISPLAY_NAME
     DESCRIPTION
+    ARCH
   )
 
   set(multi_value_keywords
@@ -44,6 +45,30 @@ function(add_appx_manifest target)
 
   if(NOT DEFINED ARGV_DISPLAY_NAME)
     set(ARGV_DISPLAY_NAME "${ARGV_NAME}")
+  endif()
+
+  if(NOT ARGV_ARCH)
+    if(MSVC AND CMAKE_GENERATOR_PLATFORM)
+      set(arch ${CMAKE_GENERATOR_PLATFORM})
+    elseif(CMAKE_SYSTEM_PROCESSOR)
+      set(arch ${CMAKE_SYSTEM_PROCESSOR})
+    else()
+      set(arch ${CMAKE_HOST_SYSTEM_PROCESSOR})
+    endif()
+
+    string(TOLOWER "${arch}" arch)
+
+    if(arch MATCHES "arm64|aarch64")
+      set(ARGV_ARCH "arm64")
+    elseif(arch MATCHES "armv7-a|armeabi-v7a")
+      set(ARGV_ARCH "arm")
+    elseif(arch MATCHES "x64|x86_64|amd64")
+      set(ARGV_ARCH "x64")
+    elseif(arch MATCHES "x86|i386|i486|i586|i686")
+      set(ARGV_ARCH "x86")
+    else()
+      message(FATAL_ERROR "Unable to detect target architecture")
+    endif()
   endif()
 
   list(TRANSFORM ARGV_UNVIRTUALIZED_PATHS PREPEND "<virtualization:ExcludedDirectory>")

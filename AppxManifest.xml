@@ -12,7 +12,7 @@
     Name="${ARGV_NAME}"
     Version="${ARGV_VERSION}.0"
     Publisher="${ARGV_PUBLISHER}"
-    ProcessorArchitecture="${CMAKE_GENERATOR_PLATFORM}"
+    ProcessorArchitecture="${ARGV_ARCH}"
   />
   <Properties>
     <DisplayName>${ARGV_DISPLAY_NAME}</DisplayName>
